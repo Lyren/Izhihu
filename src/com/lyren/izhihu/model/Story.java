@@ -21,6 +21,25 @@ public class Story {
 	
 	@JSONField(name = "id")
 	private String id ;
+	
+	private boolean isRead = false ;
+	private boolean isFavorite = false ;
+
+	public boolean isRead() {
+		return isRead;
+	}
+
+	public void setRead(boolean isRead) {
+		this.isRead = isRead;
+	}
+
+	public boolean isFavorite() {
+		return isFavorite;
+	}
+
+	public void setFavorite(boolean isFavorite) {
+		this.isFavorite = isFavorite;
+	}
 
 	public String getDisplay_date() {
 		return display_date;

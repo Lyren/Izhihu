@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<litepal>
+    <dbname value="zhihu_daliy"></dbname>
+    <version value="3"></version>
+    
+    <!-- 指定映射模型 -->
+    <list>
+        <mapping class="com.lyren.izhihu.db.model.Readed"></mapping>
+        <mapping class="com.lyren.izhihu.db.model.Favorite"></mapping>
+    </list>
+</litepal>

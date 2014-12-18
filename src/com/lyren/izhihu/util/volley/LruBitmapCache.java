@@ -1,4 +1,4 @@
-package com.lyren.izhuhu.util.volley;
+package com.lyren.izhihu.util.volley;
 
 import com.android.volley.toolbox.ImageLoader.ImageCache;
 

@@ -1,4 +1,4 @@
-package com.lyren.izhuhu.util.web;
+package com.lyren.izhihu.util.web;
 
 import java.io.BufferedReader;
 import java.io.IOException;

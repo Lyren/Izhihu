@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="@drawable/card_list_item_selector">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4.0dp"
         android:minHeight="72.0dp"
-        android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:paddingLeft="12dp"
-        android:paddingRight="12dp" >
+        android:paddingRight="12dp"
+        android:paddingTop="8dp" 
+        android:background="@drawable/card_list_item_selector">
 
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/story_item_image"
@@ -33,19 +36,40 @@
             android:minLines="1"
             android:textIsSelectable="false"
             android:textSize="17sp" />
-        <TextView 
+
+        <TextView
             android:id="@+id/story_item_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/story_item_title"
-            android:layout_alignLeft="@+id/story_item_title"
             android:layout_alignBottom="@+id/story_item_image"
-            android:paddingTop="12dp"
+            android:layout_alignLeft="@+id/story_item_title"
+            android:layout_below="@+id/story_item_title"
             android:paddingBottom="8dp"
-            android:textSize="12sp"/>
-        
+            android:paddingTop="8dp"
+            android:textSize="12sp" />
     </RelativeLayout>
-    
-    
 
-</FrameLayout>
+    <LinearLayout
+        android:id="@+id/ll_story_tooltip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@android:color/black"
+        android:visibility="gone" >
+
+        <Button
+            android:id="@+id/story_share"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="@string/share" />
+
+        <Button
+            android:id="@+id/story_add"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="@string/add" />
+    </LinearLayout>
+
+</LinearLayout>

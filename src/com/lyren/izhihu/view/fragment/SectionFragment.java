@@ -9,16 +9,18 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.NetworkImageView;
-import com.lyren.izhihu.adapter.SectionAdapter;
+import com.lyren.izhihu.IzhihuApplication;
+import com.lyren.izhihu.adapter.StoryAdapter;
+import com.lyren.izhihu.config.IzhihuConfig;
+import com.lyren.izhihu.db.model.Readed;
 import com.lyren.izhihu.model.Story;
 import com.lyren.izhihu.net.CommandType;
 import com.lyren.izhihu.net.RequestManager;
 import com.lyren.izhihu.net.UICallback;
 import com.lyren.izhihu.net.UIData;
+import com.lyren.izhihu.util.db.DBUtil;
 import com.lyren.izhihu.view.activity.StoryDetailActivity;
-import com.lyren.izhuhu.IzhihuApplication;
 import com.lyren.izhuhu.R;
-import com.lyren.izhuhu.config.IzhihuConfig;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -27,15 +29,17 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class SectionFragment extends Fragment implements OnItemClickListener,UICallback{
+public class SectionFragment extends Fragment implements OnItemClickListener,UICallback,StoryAdapter.OpenToolTip{
 	
 	public static final String REQUEST_URL = "http://news-at.zhihu.com/api/3/section/" ;
 	private static final String ARG_SECTION_ID = "sectionId";
@@ -49,7 +53,7 @@ public class SectionFragment extends Fragment implements OnItemClickListener,UIC
 	private ListView lisView ;
 	private SwipeRefreshLayout srl ;
 	private ArrayList<Story> stories = null ;
-	private SectionAdapter adapter = null ;
+	private StoryAdapter adapter = null ;
 	private ImageLoader mImageLoader = null ;
 	
 	public static SectionFragment newInstance(String sectionId,String description, String thumbnail){
@@ -115,7 +119,7 @@ public class SectionFragment extends Fragment implements OnItemClickListener,UIC
 	private void updateListView() {
 		// TODO Auto-generated method stub
 		if (adapter == null) {
-			adapter = new SectionAdapter(getActivity(), stories);
+			adapter = new StoryAdapter(getActivity(), stories,this);
 		}
 		lisView.setAdapter(adapter);
 		lisView.setOnItemClickListener(this);
@@ -124,7 +128,15 @@ public class SectionFragment extends Fragment implements OnItemClickListener,UIC
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		if (position >0 ) {
+		if (position > 0 ) {
+			if ( !stories.get(position-1).isRead() ) {
+				stories.get(position-1).setRead(true);
+				adapter.notifyDataSetChanged();
+				Readed readedNews = new Readed() ;
+				readedNews.setStoryId(stories.get(position-1).getId());
+				readedNews.save();
+			}
+			
 			Intent intent = new Intent(getActivity(),StoryDetailActivity.class);
 			intent.putExtra("storyId", stories.get(position-1).getId());
 			startActivity(intent);
@@ -140,6 +152,7 @@ public class SectionFragment extends Fragment implements OnItemClickListener,UIC
 			try {
 				String data = successResponse.getResponseObj().getString(IzhihuConfig.KEY_STORIES);
 				stories = (ArrayList<Story>) JSONArray.parseArray(data, Story.class);
+				DBUtil.setIsReadedTag4Story(stories);
 				updateListView();
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -154,6 +167,17 @@ public class SectionFragment extends Fragment implements OnItemClickListener,UIC
 	@Override
 	public void onFail(UIData failResponse) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onClickToolTip(int position) {
+		View child = lisView.findViewWithTag(position);
+		if(child != null)
+		{
+			LinearLayout tooltip = (LinearLayout) ((View)child.getParent().getParent()).findViewById(R.id.ll_story_tooltip);
+			tooltip.setVisibility(View.GONE);
+		}
 		
 	}
 

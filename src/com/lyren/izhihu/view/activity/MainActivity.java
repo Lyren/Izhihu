@@ -10,16 +10,16 @@ import org.json.JSONObject;
 import com.alibaba.fastjson.JSONArray;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.lyren.izhihu.IzhihuApplication;
 import com.lyren.izhihu.adapter.DrawerListAdapter;
+import com.lyren.izhihu.config.IzhihuConfig;
 import com.lyren.izhihu.model.Section;
 import com.lyren.izhihu.net.CommandType;
 import com.lyren.izhihu.net.RequestManager;
 import com.lyren.izhihu.net.UICallback;
 import com.lyren.izhihu.net.UIData;
 import com.lyren.izhihu.view.fragment.SectionFragment;
-import com.lyren.izhuhu.IzhihuApplication;
 import com.lyren.izhuhu.R;
-import com.lyren.izhuhu.config.IzhihuConfig;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -29,6 +29,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -88,7 +89,8 @@ public class MainActivity extends ActionBarActivity implements UICallback , OnIt
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
-			return true;
+			Intent intent = new Intent(MainActivity.this,MyFavoriteActivity.class);
+			startActivity(intent);
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -122,6 +124,7 @@ public class MainActivity extends ActionBarActivity implements UICallback , OnIt
 	public void onFail(UIData failResponse) {
 		switch (failResponse.getCommandType()) {
 		case GET_ALL_SECTIONS:
+			dialog.dismiss();
 			Log.i(TAG, failResponse.getResponseMsg());
 			break;
 

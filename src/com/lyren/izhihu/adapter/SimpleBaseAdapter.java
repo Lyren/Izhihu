@@ -21,7 +21,7 @@ public abstract class SimpleBaseAdapter<T> extends BaseAdapter {
 
 	public SimpleBaseAdapter(Context context, ArrayList<T> list) {
 		this.mContext = context;
-		this.mDataList = list == null ? new ArrayList<T>() : new ArrayList<T>(list);
+		this.mDataList = list == null ? new ArrayList<T>() : list;
 	}
 
 	@Override

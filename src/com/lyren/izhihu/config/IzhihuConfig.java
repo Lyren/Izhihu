@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.lyren.izhuhu.config;
+package com.lyren.izhihu.config;
 
 /** 
  * @ClassName: IzhihuConfig 

@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.lyren.izhihu.IzhihuApplication;
 import com.lyren.izhihu.model.Section;
-import com.lyren.izhuhu.IzhihuApplication;
 import com.lyren.izhuhu.R;
 
 /**
